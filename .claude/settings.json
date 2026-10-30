@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "hesotec": {
+      "source": {
+        "source": "url",
+        "url": "ssh://git@git.hesotecgmbh.local:2222/hesotec/claude-plugins.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "hesotec-basis@hesotec": true
+  }
+}

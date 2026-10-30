@@ -1,0 +1,70 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "hesotec electrify",
+        "description": "The key is created in the portal under “My integrations”. It is shown there exactly once.",
+        "data": {
+          "adresse": "Portal address",
+          "schluessel": "Key"
+        }
+      },
+      "reauth_confirm": {
+        "title": "New key",
+        "description": "The previous key is no longer valid. Create a new one in the portal under “My integrations”.",
+        "data": {
+          "schluessel": "Key"
+        }
+      }
+    },
+    "error": {
+      "schluessel": "The portal does not accept this key. Was it revoked, or truncated while typing?",
+      "nicht_erreichbar": "The portal could not be reached. Are address and port correct, and does this device reach the internet?",
+      "unbekannt": "The portal answered unexpectedly. Details are in the log."
+    },
+    "abort": {
+      "already_configured": "This portal is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Settings",
+        "description": "Measurements arrive at most every 20 seconds. A tighter interval asks for the same number twice.",
+        "data": {
+          "takt": "Interval between polls",
+          "auch_hinter_matter": "Also add charge points behind a SmartBox with its own Matter bridge"
+        },
+        "data_description": {
+          "auch_hinter_matter": "Otherwise such charge points appear twice in Home Assistant — once through this integration, once through Matter."
+        }
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "freigabe": {
+        "name": "Release"
+      }
+    },
+    "binary_sensor": {
+      "laedt": {
+        "name": "Charging"
+      }
+    },
+    "sensor": {
+      "leistung": {
+        "name": "Power"
+      },
+      "strom": {
+        "name": "Current"
+      },
+      "sitzungsenergie": {
+        "name": "Session energy"
+      },
+      "stand": {
+        "name": "Last reported"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# ALLES LF, UND ZWAR AUSDRÜCKLICH.
+#
+# Wie im Homebridge-Plugin und aus demselben Grund: hier ist nichts
+# gewachsen, alles ist an einem Tag entstanden und durchgehend LF. Ohne
+# diese Zeile macht ein Windows-Arbeitsplatz mit `core.autocrlf=true` beim
+# Auschecken CRLF daraus — und dann liegt dieselbe Integration mit
+# Wagenrückläufen auf einem Raspberry Pi, auf dem Home Assistant läuft.
+#
+# Im Portalrepository steht bewusst KEIN `* text=auto`; dort ist der
+# Arbeitsbaum je Datei verschieden, und eine Umstellung hätte jede Datei
+# angefasst.
+* text=auto eol=lf

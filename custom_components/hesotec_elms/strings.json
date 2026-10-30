@@ -1,0 +1,70 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "hesotec electrify",
+        "description": "Der Schlüssel entsteht im Portal unter „Meine Integrationen“. Er wird dort genau einmal angezeigt.",
+        "data": {
+          "adresse": "Adresse des Portals",
+          "schluessel": "Schlüssel"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Neuer Schlüssel",
+        "description": "Der bisherige Schlüssel gilt nicht mehr. Legen Sie im Portal unter „Meine Integrationen“ einen neuen an.",
+        "data": {
+          "schluessel": "Schlüssel"
+        }
+      }
+    },
+    "error": {
+      "schluessel": "Den Schlüssel nimmt das Portal nicht an. Wurde er zurückgezogen oder beim Abtippen verkürzt?",
+      "nicht_erreichbar": "Das Portal war nicht erreichbar. Stimmen Adresse und Port, und kommt dieses Gerät ins Internet?",
+      "unbekannt": "Das Portal hat unerwartet geantwortet. Einzelheiten stehen im Protokoll."
+    },
+    "abort": {
+      "already_configured": "Dieses Portal ist bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Einstellungen",
+        "description": "Die Messdaten kommen höchstens alle 20 Sekunden. Ein engerer Takt fragt dieselbe Zahl zweimal ab.",
+        "data": {
+          "takt": "Abstand zwischen zwei Abrufen",
+          "auch_hinter_matter": "Auch Ladepunkte hinter einer SmartBox mit eigener Matter-Brücke anlegen"
+        },
+        "data_description": {
+          "auch_hinter_matter": "Solche Ladepunkte stehen sonst zweimal in Home Assistant — einmal hierüber, einmal über Matter."
+        }
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "freigabe": {
+        "name": "Freigabe"
+      }
+    },
+    "binary_sensor": {
+      "laedt": {
+        "name": "Lädt"
+      }
+    },
+    "sensor": {
+      "leistung": {
+        "name": "Leistung"
+      },
+      "strom": {
+        "name": "Strom"
+      },
+      "sitzungsenergie": {
+        "name": "Energie der Sitzung"
+      },
+      "stand": {
+        "name": "Zuletzt gemeldet"
+      }
+    }
+  }
+}
