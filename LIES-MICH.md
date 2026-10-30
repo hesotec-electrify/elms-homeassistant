@@ -103,15 +103,33 @@ Portal**: was `null` bedeutet, wie aus Wattstunden Kilowattstunden werden,
 was bei fehlenden oder unsinnigen Feldern passiert. Dafür braucht es keine
 Testbibliothek; die Probe läuft auf jedem Rechner mit Python.
 
-## Was noch nicht geprüft ist
+## Gemessen am 30.10.2026
 
-**Die Integration ist noch nicht in einer laufenden Home-Assistant-Instanz
-geladen worden.** Geprüft sind: Syntax aller Dateien, Gültigkeit aller
-JSON-Dateien, und die Auslegung der Portalantwort (16 Prüfungen). Nicht
-geprüft ist, ob Home Assistant die Entitäten so anlegt wie gedacht und ob
-jede benutzte Schnittstelle in der installierten Fassung noch so heißt.
+Geladen in **Home Assistant OS 2026.10.4** auf einem Raspberry Pi, gegen
+das Livesystem mit vierzehn Ladepunkten.
 
-Dafür spricht `hacs.json` eine Mindestfassung aus (**2024.12**); sie ist
-hergeleitet aus den benutzten Bausteinen (`entry.runtime_data`,
-`_get_reauth_entry`, `config_entry` am Koordinator) und sollte an einer
-echten Instanz nachgezogen werden.
+| | |
+|---|---|
+| Geräte | **12** — vierzehn Ladepunkte minus zwei hinter Matter |
+| Entitäten | **72** = 12 × 6, davon 12 abgeschaltet (*Zuletzt gemeldet*) |
+| Fehler beim Laden | keine |
+
+Drei Dinge waren dabei an echten Daten zu sehen, und jedes ist eine
+Entscheidung aus diesem Repository:
+
+- **Wo nichts lädt, steht 0,0 W** — kein `unknown`, keine Lücke in der
+  Statistik. Die ladenden Ladepunkte standen zur selben Zeit auf 11.160 W,
+  10.900 W, 7.310 W und 3.130 W.
+- **Zwei nicht erreichbare SmartBoxen standen auf `unavailable`**, nicht
+  auf „aus".
+- **Ein Ladepunkt stand auf *Freigabe an* und *Lädt aus* zugleich.** Kein
+  Widerspruch, sondern die ganze Unterscheidung: er ist freigegeben, und
+  das Fahrzeug pausiert. Das Portal nannte denselben Vorgang zur selben
+  Zeit „Pause (Fahrzeug)".
+
+Die Warnung zu den beiden Ladepunkten hinter Matter stand mit Namen und
+Seriennummer im Protokoll — einmal, nicht in jedem Takt.
+
+**Die Mindestfassung in `hacs.json` (2024.12) ist weiterhin hergeleitet und
+nicht gemessen**; gelaufen ist es auf 2026.10. Wer eine ältere Instanz
+bedienen muss, prüft sie dort nach.
