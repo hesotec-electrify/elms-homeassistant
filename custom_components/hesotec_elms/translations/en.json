@@ -59,7 +59,7 @@
   "entity": {
     "switch": {
       "freigabe": {
-        "name": "Release"
+        "name": "Charging allowed"
       }
     },
     "binary_sensor": {

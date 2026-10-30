@@ -31,16 +31,29 @@ async def async_setup_entry(
 
 
 class Freigabeschalter(Ladepunktentitaet, SwitchEntity):
-    """„An" heißt freigegeben, nicht „lädt".
+    """Die Pause, und sonst nichts: „Laden erlaubt".
 
-    **Das ist der Unterschied, an dem sich jeder einmal vergreift.** Eine
-    Säule kann freigegeben sein und niemand steckt an; sie kann laden und
-    freigegeben sein. „Aus" heißt: **von Hand pausiert** — das Portal liest
+    **„Aus" heißt von Hand pausiert**, „An" heißt es nicht. Das Portal liest
     dafür ``PauseUrsache = 'hand'`` und nicht den allgemeinen Pausemerker,
     damit der Schalter für das steht, was ein Mensch zuletzt wollte, statt
     sich umzulegen, sobald das Fahrzeug eine Ladepause macht.
 
-    Ob gerade Strom fließt, sagt der Sensor „Lädt" daneben.
+    **Er hieß bis zum 30.10.2026 „Freigabe", und das war falsch** (Befund
+    des Betreibers). Auf derselben Karte stand das Wort dann für zwei
+    verschiedene Dinge: hier für die Pause, bei „Wartet auf Freigabe" und
+    „Freigabe senden" für die Autorisierung. Das Portal selbst nennt diesen
+    Schalter auch gar nicht so — dort heißen die Knöpfe „Pausieren" und
+    „Pause aufheben".
+
+    **Die Polarität blieb, als der Name wechselte.** „Pause" wäre noch näher
+    am Portal gewesen, hieße aber An = pausiert — und eine Entität, die ihre
+    Bedeutung umdreht, zerschießt stillschweigend jede Automatisierung, die
+    es schon gibt. Die Kennung (``…_freigabe``) blieb aus demselben Grund:
+    sie traegt den Verlauf.
+
+    Ob gerade Strom fließt, sagt „Lädt" daneben. Ob eine Autorisierung
+    fehlt, sagt „Wartet auf Freigabe" — und dagegen hilft dieser Schalter
+    nicht.
     """
 
     _attr_device_class = SwitchDeviceClass.SWITCH

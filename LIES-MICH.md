@@ -7,14 +7,20 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 
 | Entität | heißt hier |
 |---|---|
-| Schalter *Freigabe* | an = freigegeben, aus = **von Hand pausiert** |
+| Schalter *Laden erlaubt* | aus = **von Hand pausiert** |
 | *Lädt* | es fließt gerade Strom |
+| *Wartet auf Freigabe* | ein Fahrzeug steht an und wartet auf die Autorisierung |
+| Taste *Freigabe senden* | schickt die hinterlegte Karte (nur wo eine zugeordnet ist) |
 | *Leistung*, *Strom* | W und A, nur während eines Ladevorgangs |
 | *Energie der Sitzung* | kWh des laufenden Ladevorgangs |
 | *Zuletzt gemeldet* | wann sich das Gerät zuletzt gemeldet hat (standardmäßig aus) |
 
-> **„An" heißt freigegeben, nicht „lädt".** Eine Säule kann freigegeben
-> sein, ohne dass jemand ansteckt. Was wirklich fließt, sagt *Lädt*.
+> **„Laden erlaubt" ist die Pause, nicht die Autorisierung.** Das sind zwei
+> verschiedene Dinge, und sie brauchen zwei verschiedene Handgriffe:
+> *„lädt nicht"* kann heißen **von Hand pausiert** (Schalter umlegen),
+> **vom Fahrzeug pausiert** (nichts tun, es geht weiter) oder **wartet auf
+> Autorisierung** (Freigabe senden). Beim letzten ändert der Schalter
+> nichts — und sagt das auch nicht.
 
 ## Einrichten
 
