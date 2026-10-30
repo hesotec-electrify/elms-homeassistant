@@ -18,6 +18,7 @@ from .portal import Portal
 
 PLATTFORMEN: list[Platform] = [
     Platform.BINARY_SENSOR,
+    Platform.BUTTON,
     Platform.SENSOR,
     Platform.SWITCH,
 ]

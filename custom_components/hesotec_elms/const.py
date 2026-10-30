@@ -14,6 +14,11 @@ FELD_SCHLUESSEL: Final = "schluessel"
 FELD_TAKT: Final = "takt"
 FELD_AUCH_HINTER_MATTER: Final = "auch_hinter_matter"
 
+# Die Karte je Ladepunkt, als {Seriennummer: Karten-Id}. Ueber die
+# SERIENNUMMER und nicht ueber die ControllerId -- dieselbe Ueberlegung wie
+# bei den Entitaetskennungen.
+FELD_KARTEN: Final = "karten"
+
 VORGABE_ADRESSE: Final = "https://elms.hesotec.de:8443"
 
 # DREISSIG SEKUNDEN, UND DAS IST KEIN KOMPROMISS. Die Messdaten kommen

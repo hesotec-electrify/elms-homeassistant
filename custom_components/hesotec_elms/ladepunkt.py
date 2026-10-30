@@ -26,6 +26,7 @@ class Ladepunkt:
     name: str
     an: bool
     laedt: bool
+    wartet_auf_freigabe: bool
     erreichbar: bool
     leistung_watt: float | None
     strom_ampere: float | None
@@ -76,6 +77,7 @@ class Ladepunkt:
             name=str(zeile.get("name") or zeile.get("seriennummer") or ""),
             an=bool(zeile.get("an")),
             laedt=bool(zeile.get("laedt")),
+            wartet_auf_freigabe=bool(zeile.get("wartetAufFreigabe")),
             erreichbar=bool(zeile.get("erreichbar")),
             leistung_watt=_zahl(zeile.get("leistungWatt")),
             strom_ampere=_zahl(zeile.get("stromAmpere")),
@@ -114,3 +116,32 @@ def _zeitpunkt(wert: object) -> datetime | None:
         return datetime.fromisoformat(wert)
     except ValueError:
         return None
+
+
+@dataclass(frozen=True, slots=True)
+class Karte:
+    """Eine Karte, wie sie das Portal zur Auswahl liefert.
+
+    **Ohne Nummer im Klartext.** ``nummer`` ist die verdeckte Fassung, wie
+    sie auch im Portal steht — eine Kartennummer ist ein Ausweis, und zur
+    Auswahl genügt der Name.
+    """
+
+    id: int
+    name: str
+    nummer: str
+
+    @property
+    def beschriftung(self) -> str:
+        """Was in der Auswahlliste steht."""
+        if self.name and self.name != self.nummer:
+            return f"{self.name} ({self.nummer})"
+        return self.nummer or str(self.id)
+
+    @classmethod
+    def aus_json(cls, zeile: dict) -> "Karte":
+        return cls(
+            id=int(zeile["id"]),
+            name=str(zeile.get("name") or ""),
+            nummer=str(zeile.get("nummer") or ""),
+        )

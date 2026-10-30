@@ -30,6 +30,13 @@
     "step": {
       "init": {
         "title": "Einstellungen",
+        "menu_options": {
+          "einstellungen": "Takt und Matter",
+          "karten": "Karten für die Freigabe"
+        }
+      },
+      "einstellungen": {
+        "title": "Takt und Matter",
         "description": "Die Messdaten kommen höchstens alle 20 Sekunden. Ein engerer Takt fragt dieselbe Zahl zweimal ab.",
         "data": {
           "takt": "Abstand zwischen zwei Abrufen",
@@ -38,7 +45,15 @@
         "data_description": {
           "auch_hinter_matter": "Solche Ladepunkte stehen sonst zweimal in Home Assistant — einmal hierüber, einmal über Matter."
         }
+      },
+      "karten": {
+        "title": "Karten für die Freigabe",
+        "description": "Welche Karte soll an welchem Ladepunkt freigegeben werden? Ohne Karte gibt es dort keine Freigabetaste — das Portal kennt keinen kartenlosen Weg.\n\n{zuordnung}"
       }
+    },
+    "abort": {
+      "nicht_geladen": "Die Integration ist gerade nicht geladen. Erst starten, dann die Karten zuordnen.",
+      "karten_nicht_lesbar": "Die Karten ließen sich nicht lesen: {grund}"
     }
   },
   "entity": {
@@ -50,6 +65,9 @@
     "binary_sensor": {
       "laedt": {
         "name": "Lädt"
+      },
+      "wartet_auf_freigabe": {
+        "name": "Wartet auf Freigabe"
       }
     },
     "sensor": {
@@ -64,6 +82,11 @@
       },
       "stand": {
         "name": "Zuletzt gemeldet"
+      }
+    },
+    "button": {
+      "freigabe_senden": {
+        "name": "Freigabe senden"
       }
     }
   }

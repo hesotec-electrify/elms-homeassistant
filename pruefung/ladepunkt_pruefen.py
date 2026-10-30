@@ -37,6 +37,7 @@ sys.modules[_SPEZIFIKATION.name] = _MODUL
 _SPEZIFIKATION.loader.exec_module(_MODUL)
 
 Ladepunkt = _MODUL.Ladepunkt
+Karte = _MODUL.Karte
 
 FEHLER: list[str] = []
 
@@ -60,6 +61,7 @@ LAEDT = {
     "seriennummer": "15061724",
     "hinterSmartbox": False,
     "smartboxMatterAktiv": False,
+    "wartetAufFreigabe": False,
 }
 
 # Derselbe Ladepunkt, wenn nichts lädt: Leistung und Strom fehlen.
@@ -109,6 +111,28 @@ def main() -> int:
     gleich("wirrer Zahlenwert wird None", wirr.leistung_watt, None)
     gleich("wirrer Zeitpunkt wird None", wirr.stand, None)
 
+    # ------------------------------------------------- wartet auf Freigabe
+    # DER DRITTE GRUND, AUS DEM NICHTS FLIESST. Pausiert und wartend sehen
+    # von aussen gleich aus und verlangen zwei verschiedene Handgriffe.
+    wartend = Ladepunkt.aus_json(dict(RUHT, wartetAufFreigabe=True))
+
+    gleich("wartend: wartet", wartend.wartet_auf_freigabe, True)
+    gleich("wartend: laedt nicht", wartend.laedt, False)
+    gleich("ruhend wartet nicht", r.wartet_auf_freigabe, False)
+    gleich("altes Portal ohne das Feld", Ladepunkt.aus_json(
+        {"id": 3, "seriennummer": "99"}).wartet_auf_freigabe, False)
+
+    # ----------------------------------------------------------- Die Karte
+    k = Karte.aus_json({"id": 42, "name": "Goran B.", "nummer": "1234…5678"})
+
+    gleich("Karte: Kennung", k.id, 42)
+    gleich("Karte: Beschriftung", k.beschriftung, "Goran B. (1234…5678)")
+
+    # Ohne Bezeichnung traegt der Name schon die verdeckte Nummer — dann
+    # nicht zweimal dasselbe in Klammern dahinter.
+    ohne = Karte.aus_json({"id": 7, "name": "1234…5678", "nummer": "1234…5678"})
+    gleich("Karte ohne Bezeichnung", ohne.beschriftung, "1234…5678")
+
     # -------------------------------------------------------------- Ergebnis
     if FEHLER:
         for f in FEHLER:
@@ -116,7 +140,7 @@ def main() -> int:
         print(f"\n{len(FEHLER)} Abweichung(en).")
         return 1
 
-    print("Portalantwort: 16 Prüfungen, keine Abweichung.")
+    print("Portalantwort: 22 Prüfungen, keine Abweichung.")
     print("In Ordnung.")
     return 0
 

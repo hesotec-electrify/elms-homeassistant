@@ -18,6 +18,10 @@ from homeassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
     NumberSelectorMode,
+    SelectOptionDict,
+    SelectSelector,
+    SelectSelectorConfig,
+    SelectSelectorMode,
     TextSelector,
     TextSelectorConfig,
     TextSelectorType,
@@ -27,6 +31,7 @@ from .const import (
     BEREICH,
     FELD_ADRESSE,
     FELD_AUCH_HINTER_MATTER,
+    FELD_KARTEN,
     FELD_SCHLUESSEL,
     FELD_TAKT,
     GROESSTER_TAKT,
@@ -151,14 +156,22 @@ class Einrichtung(ConfigFlow, domain=BEREICH):
 
 
 class Einstellungen(OptionsFlow):
-    """Takt und der Matter-Sonderfall."""
+    """Takt, der Matter-Sonderfall — und welche Karte wo freigegeben wird."""
 
-    async def async_step_init(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_init(self, user_input=None) -> ConfigFlowResult:
+        """Zwei Dinge, die nichts miteinander zu tun haben, also zwei Masken.
+
+        Eine Maske mit Takt, Matter und zwölf Kartenauswahlen wäre eine
+        Wand. Getrennt findet jeder das, was er sucht.
+        """
+        return self.async_show_menu(
+            step_id="init", menu_options=["einstellungen", "karten"]
+        )
+
+    async def async_step_einstellungen(self, user_input=None) -> ConfigFlowResult:
         if user_input is not None:
-            return self.async_create_entry(
-                data={
+            return self._sichern(
+                {
                     FELD_TAKT: int(user_input[FELD_TAKT]),
                     FELD_AUCH_HINTER_MATTER: user_input[FELD_AUCH_HINTER_MATTER],
                 }
@@ -167,7 +180,7 @@ class Einstellungen(OptionsFlow):
         jetzt = self.config_entry.options
 
         return self.async_show_form(
-            step_id="init",
+            step_id="einstellungen",
             data_schema=vol.Schema(
                 {
                     vol.Required(
@@ -188,3 +201,73 @@ class Einstellungen(OptionsFlow):
                 }
             ),
         )
+
+    async def async_step_karten(self, user_input=None) -> ConfigFlowResult:
+        """Je Ladepunkt eine Karte — oder keine.
+
+        **Ohne Karte keine Taste.** Das Portal kennt keinen kartenlosen Weg:
+        ``AddAuth`` trägt genau eine, und der Dienst schickt dem Gerät eine
+        Antwort für sie. Wer hier nichts wählt, bekommt für diesen Ladepunkt
+        auch keine Freigabetaste — besser als eine, die beim Drücken
+        zuverlässig scheitert.
+        """
+        koordinator = getattr(self.config_entry, "runtime_data", None)
+
+        if koordinator is None or not koordinator.data:
+            return self.async_abort(reason="nicht_geladen")
+
+        if user_input is not None:
+            gewaehlt = {
+                sn: int(wert)
+                for sn, wert in user_input.items()
+                if wert not in (None, "", "0")
+            }
+            return self._sichern({FELD_KARTEN: gewaehlt})
+
+        try:
+            karten = await koordinator.portal.karten()
+        except Portalfehler as fehler:
+            return self.async_abort(
+                reason="karten_nicht_lesbar",
+                description_placeholders={"grund": fehler.text or str(fehler)},
+            )
+
+        auswahl = [SelectOptionDict(value="0", label="— keine —")]
+        auswahl += [
+            SelectOptionDict(value=str(k.id), label=k.beschriftung) for k in karten
+        ]
+
+        bisher = dict(self.config_entry.options.get(FELD_KARTEN) or {})
+        punkte = sorted(koordinator.data.values(), key=lambda p: p.name)
+
+        felder = {}
+        for p in punkte:
+            felder[
+                vol.Optional(
+                    p.seriennummer,
+                    default=str(bisher.get(p.seriennummer, "0")),
+                )
+            ] = SelectSelector(
+                SelectSelectorConfig(options=auswahl, mode=SelectSelectorMode.DROPDOWN)
+            )
+
+        # DIE FELDER HEISSEN NACH DER SERIENNUMMER, denn sie ist der
+        # Schluessel, unter dem die Zuordnung gespeichert wird. Welche Nummer
+        # zu welchem Ladepunkt gehoert, steht deshalb ueber der Maske — sonst
+        # waere das Formular eine Liste von Zahlen.
+        zuordnung = "\n".join(f"{p.seriennummer} — {p.name}" for p in punkte)
+
+        return self.async_show_form(
+            step_id="karten",
+            data_schema=vol.Schema(felder),
+            description_placeholders={"zuordnung": zuordnung},
+        )
+
+    def _sichern(self, neu: dict) -> ConfigFlowResult:
+        """Schreibt NEBEN das, was schon dasteht.
+
+        ``async_create_entry`` ersetzt die Einstellungen vollstaendig. Wer
+        hier nur sein eigenes Teilstueck uebergibt, loescht das andere —
+        einmal den Takt gespeichert, und alle Kartenzuordnungen waeren weg.
+        """
+        return self.async_create_entry(data={**self.config_entry.options, **neu})

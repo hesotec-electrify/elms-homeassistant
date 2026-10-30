@@ -30,6 +30,13 @@
     "step": {
       "init": {
         "title": "Settings",
+        "menu_options": {
+          "einstellungen": "Interval and Matter",
+          "karten": "Cards for releasing"
+        }
+      },
+      "einstellungen": {
+        "title": "Interval and Matter",
         "description": "Measurements arrive at most every 20 seconds. A tighter interval asks for the same number twice.",
         "data": {
           "takt": "Interval between polls",
@@ -38,7 +45,15 @@
         "data_description": {
           "auch_hinter_matter": "Otherwise such charge points appear twice in Home Assistant — once through this integration, once through Matter."
         }
+      },
+      "karten": {
+        "title": "Cards for releasing",
+        "description": "Which card should be released at which charge point? Without a card there is no release button — the portal has no card-less way.\n\n{zuordnung}"
       }
+    },
+    "abort": {
+      "nicht_geladen": "The integration is not loaded right now. Start it first, then assign the cards.",
+      "karten_nicht_lesbar": "The cards could not be read: {grund}"
     }
   },
   "entity": {
@@ -50,6 +65,9 @@
     "binary_sensor": {
       "laedt": {
         "name": "Charging"
+      },
+      "wartet_auf_freigabe": {
+        "name": "Waiting for release"
       }
     },
     "sensor": {
@@ -64,6 +82,11 @@
       },
       "stand": {
         "name": "Last reported"
+      }
+    },
+    "button": {
+      "freigabe_senden": {
+        "name": "Send release"
       }
     }
   }

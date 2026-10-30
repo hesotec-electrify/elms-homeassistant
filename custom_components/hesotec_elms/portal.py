@@ -13,7 +13,7 @@ import logging
 
 import aiohttp
 
-from .ladepunkt import Ladepunkt
+from .ladepunkt import Karte, Ladepunkt
 
 _LOG = logging.getLogger(__name__)
 
@@ -85,6 +85,25 @@ class Portal:
 
         return [Ladepunkt.aus_json(z) for z in rohdaten]
 
+    async def karten(self, suche: str | None = None) -> list[Karte]:
+        """Die aktiven Karten des Zugangs, zur Auswahl.
+
+        **Nur aktive.** Eine gesperrte Karte weist das Portal beim Freigeben
+        ohnehin ab; sie zur Auswahl zu stellen wäre ein Angebot, das beim
+        Drücken fehlschlägt.
+        """
+        weg = "/karten" + (f"?suche={suche}" if suche else "")
+        rohdaten = await self._holen(weg)
+
+        if not isinstance(rohdaten, dict):
+            raise Portalfehler(0, "Die Antwort war keine Kartenliste.")
+
+        zeilen = rohdaten.get("zeilen")
+        if not isinstance(zeilen, list):
+            return []
+
+        return [Karte.aus_json(z) for z in zeilen]
+
     # --------------------------------------------------------------- Stellen
 
     async def schalten(self, kennung: int, an: bool) -> None:
@@ -95,6 +114,22 @@ class Portal:
         Schalter, der sich jederzeit zurückdrehen lässt.
         """
         await self._senden(f"/ladepunkte/{kennung}/schalten", {"an": an})
+
+    async def freigeben(self, kennung: int, karte: int) -> None:
+        """Schickt eine Freigabe für genau eine Karte an den Ladepunkt.
+
+        **Das ist etwas anderes als „Pause aufheben".** Wartet eine Säule auf
+        die Autorisierung, hilft der Schalter nicht — sie ist nicht pausiert,
+        sie hat niemanden, den sie laden darf. Dieser Weg schickt ihr eine
+        Antwort auf die Frage, die sie gestellt hat.
+
+        Der Eingriff ist der folgenreichste, den die Schnittstelle anbietet:
+        er umgeht die Freigabematrix und die Whitelist. Das Portal verlangt
+        dafür eine verwaltende Rolle und prüft außerdem Mandantengrenze,
+        Kartensperre und ob schon eine Freigabe aussteht — alles vier kommt
+        als 403 zurück, die Begründung im Klartext.
+        """
+        await self._senden(f"/ladepunkte/{kennung}/freigabe", {"karteId": karte})
 
     # ---------------------------------------------------------------- intern
 
