@@ -31,9 +31,11 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 
 1. Im Portal anmelden, **Mein Zugang → Meine Integrationen**, einen
    Schlüssel anlegen. Er wird **genau einmal** angezeigt.
-2. Den Ordner `custom_components/hesotec_elms` nach
-   `<config>/custom_components/` kopieren. **Über HACS geht es nicht**,
-   siehe unten.
+2. **Über HACS** (seit 10.11.2026): in HACS unter *⋮ → Benutzerdefinierte
+   Repositories* `https://github.com/hesotec-electrify/elms-homeassistant`
+   eintragen, Art *Integration*, herunterladen. Sonst den Ordner
+   `custom_components/hesotec_elms` von Hand nach
+   `<config>/custom_components/` kopieren.
 3. Home Assistant neu starten.
 4. **Einstellungen → Geräte & Dienste → Integration hinzufügen →
    hesotec electrify.** Adresse (`https://elms.hesotec.de`) und
@@ -58,12 +60,15 @@ mehr „Add-ons“: *Einstellungen → Apps → Store*.
 Beim Austausch den alten Ordner **löschen** statt darüberzukopieren — sonst
 bleiben Dateien liegen, die es in der neuen Fassung nicht mehr gibt.
 
-> **HACS ist für dieses Repository kein Weg**, obwohl eine `hacs.json`
-> dabeiliegt. HACS holt über die GitHub-Schnittstelle; dieses Repository liegt
-> auf dem hauseigenen Forgejo (`git.hesotecgmbh.local`, nur über SSH
-> erreichbar), und Releases gibt es auch keine. Die Datei bleibt trotzdem
-> liegen: auf einer Spiegelung nach GitHub wäre sie genau das, was fehlt.
-> **Hier stand bis zum 10.11.2026 das Gegenteil.**
+> **Über HACS geht es seit dem 10.11.2026** — und das ist der Weg, den ein
+> Kunde nehmen sollte: Aktualisieren kostet danach zwei Klicks statt eines
+> Dateitauschs über Samba. Geholt wird von der Spiegelung
+> `hesotec-electrify/elms-homeassistant` auf GitHub; gearbeitet wird
+> weiter hier auf Forgejo. Wie eine neue Fassung dorthin kommt, steht
+> unter *Ausliefern über HACS*.
+>
+> **Hier stand bis dahin, HACS sei kein Weg** — und davor stand sogar, es
+> ginge einfach so. Beides war falsch, in entgegengesetzte Richtungen.
 
 > **Hier stand bis zum 10.11.2026 `:8443`.** Das Portal lief eine Zeit lang
 > auf einem zweiten Port neben dem Altportal; seit dem Umzug am 04.11.2026
