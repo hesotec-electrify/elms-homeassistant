@@ -31,12 +31,21 @@ Je Ladepunkt entsteht ein **Gerät** mit:
    eigene Quelle hinzufügen.
 3. Home Assistant neu starten.
 4. **Einstellungen → Geräte & Dienste → Integration hinzufügen →
-   hesotec electrify.** Adresse (`https://elms.hesotec.de:8443`) und
+   hesotec electrify.** Adresse (`https://elms.hesotec.de`) und
    Schlüssel eintragen.
 
 Die Einrichtung **probiert den Schlüssel sofort aus**. Nimmt das Portal ihn
 nicht an, sagt die Maske es dort, statt hinterher eine kaputte Integration
 anzulegen.
+
+> **Hier stand bis zum 10.11.2026 `:8443`.** Das Portal lief eine Zeit lang
+> auf einem zweiten Port neben dem Altportal; seit dem Umzug am 04.11.2026
+> ist dieser Port zu, und `https://elms.hesotec.de` ist die ganze Adresse.
+> **Eine bestehende Einrichtung zieht nicht von selbst um.** Die Adresse
+> steht im Eintrag, und ändern lässt sie sich zur Zeit nur, indem man die
+> Integration entfernt und neu anlegt — Entitäten und Verlauf gehen dabei
+> verloren. Ein Weg, der das erspart, liegt im Arbeitsbaum und ist noch
+> nicht geprüft.
 
 ### Was der Schlüssel darf
 
