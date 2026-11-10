@@ -18,8 +18,9 @@ Je Ladepunkt entsteht ein Gerät mit sechs Entitäten: *Laden erlaubt* (Schalter
 
 ### Über HACS
 
-1. In HACS **⋮ → Benutzerdefinierte Repositories**, die Adresse dieses
-   Repositories eintragen, Art **Integration**.
+1. In HACS **⋮ → Benutzerdefinierte Repositories** eintragen, Art
+   **Integration**:
+   `https://github.com/hesotec-electrify/elms-homeassistant`
 2. „hesotec electrify" herunterladen.
 3. Home Assistant neu starten.
 

@@ -168,8 +168,16 @@ Arbeitsort — gearbeitet wird weiter hier.
 
 **Die beiden Adressen im Manifest zeigen auf die Spiegelung** und nicht mehr
 auf Forgejo — ein `documentation`, das von außen nicht erreichbar ist, ist für
-einen Kunden dasselbe wie keines. Steht der Name des GitHub-Kontos fest,
-gehören sie dorthin umgeschrieben.
+einen Kunden dasselbe wie keines. Festgelegt am 10.11.2026:
+
+```
+https://github.com/hesotec-electrify/elms-homeassistant
+```
+
+**Das Repository gibt es dort noch nicht.** Bis es angelegt ist, zeigen die
+beiden Adressen ins Leere — sichtbar wird das erst, wenn jemand in Home
+Assistant auf „Dokumentation" klickt. Wer die Spiegelung einrichtet, legt
+sie also unter genau diesem Namen an und nicht unter einem ähnlichen.
 
 ### Die Symbole kommen aus dem Portal
 
