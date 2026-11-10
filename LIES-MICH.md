@@ -22,6 +22,11 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 > Autorisierung** (Freigabe senden). Beim letzten ändert der Schalter
 > nichts — und sagt das auch nicht.
 
+> **Für den Betrieb gibt es ein eigenes Heft:**
+> [`BEWAEHRTE-PRAXIS.md`](BEWAEHRTE-PRAXIS.md) — die drei Fälle von
+> „lädt nicht", vier Automatisierungen zum Abschreiben, und was man
+> besser lässt.
+
 ## Einrichten
 
 1. Im Portal anmelden, **Mein Zugang → Meine Integrationen**, einen
