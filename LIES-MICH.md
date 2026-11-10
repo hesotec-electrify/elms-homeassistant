@@ -27,8 +27,8 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 1. Im Portal anmelden, **Mein Zugang → Meine Integrationen**, einen
    Schlüssel anlegen. Er wird **genau einmal** angezeigt.
 2. Den Ordner `custom_components/hesotec_elms` nach
-   `<config>/custom_components/` kopieren — oder das Repository in HACS als
-   eigene Quelle hinzufügen.
+   `<config>/custom_components/` kopieren. **Über HACS geht es nicht**,
+   siehe unten.
 3. Home Assistant neu starten.
 4. **Einstellungen → Geräte & Dienste → Integration hinzufügen →
    hesotec electrify.** Adresse (`https://elms.hesotec.de`) und
@@ -37,6 +37,28 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 Die Einrichtung **probiert den Schlüssel sofort aus**. Nimmt das Portal ihn
 nicht an, sagt die Maske es dort, statt hinterher eine kaputte Integration
 anzulegen.
+
+### Wie die Dateien auf das Gerät kommen
+
+**Home Assistant OS hat keinen eingebauten Dateizugriff.** Man braucht eines
+der Zusatzprogramme — sie heißen in neueren Fassungen **„Apps“** und nicht
+mehr „Add-ons“: *Einstellungen → Apps → Store*.
+
+| | |
+|---|---|
+| **Samba share** | der einfachste Weg von einem Windows-Rechner: danach liegt `\\homeassistant\config` im Explorer |
+| **Studio Code Server** oder **File editor** | im Browser bearbeiten und hochladen |
+| **Advanced SSH & Web Terminal** | für `scp` |
+
+Beim Austausch den alten Ordner **löschen** statt darüberzukopieren — sonst
+bleiben Dateien liegen, die es in der neuen Fassung nicht mehr gibt.
+
+> **HACS ist für dieses Repository kein Weg**, obwohl eine `hacs.json`
+> dabeiliegt. HACS holt über die GitHub-Schnittstelle; dieses Repository liegt
+> auf dem hauseigenen Forgejo (`git.hesotecgmbh.local`, nur über SSH
+> erreichbar), und Releases gibt es auch keine. Die Datei bleibt trotzdem
+> liegen: auf einer Spiegelung nach GitHub wäre sie genau das, was fehlt.
+> **Hier stand bis zum 10.11.2026 das Gegenteil.**
 
 > **Hier stand bis zum 10.11.2026 `:8443`.** Das Portal lief eine Zeit lang
 > auf einem zweiten Port neben dem Altportal; seit dem Umzug am 04.11.2026
