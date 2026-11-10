@@ -148,6 +148,51 @@ seine Bedeutung ändert, ändert sie für Programme, die auf Rechnern von
 Kunden laufen und beim Ausrollen des Portals nicht mitkommen. Erweitern ja,
 ändern nein.
 
+## Ausliefern über HACS
+
+**Nicht von hier, sondern von einer Spiegelung auf GitHub.** HACS holt
+ausschließlich über die GitHub-Schnittstelle; dieses Repository liegt auf dem
+hauseigenen Forgejo. Die Spiegelung ist der Auslieferungsweg, nicht der
+Arbeitsort — gearbeitet wird weiter hier.
+
+**Was dafür im Repository stehen muss**, und was davon schon steht:
+
+| | |
+|---|---|
+| `custom_components/hesotec_elms/` mit allen Dateien | ✓ |
+| `manifest.json` mit `domain`, `name`, `version`, `codeowners`, `documentation`, `issue_tracker` | ✓ |
+| `hacs.json` mit `name` | ✓ |
+| `README.md` — HACS zeigt sie in der Übersicht (`render_readme`) | ✓ |
+| `brand/icon.png` | ✓, 256 px, dazu `icon@2x.png` mit 512 px |
+| ein **Release** auf GitHub | fehlt, geht erst mit der Spiegelung |
+
+**Die beiden Adressen im Manifest zeigen auf die Spiegelung** und nicht mehr
+auf Forgejo — ein `documentation`, das von außen nicht erreichbar ist, ist für
+einen Kunden dasselbe wie keines. Steht der Name des GitHub-Kontos fest,
+gehören sie dorthin umgeschrieben.
+
+### Die Symbole kommen aus dem Portal
+
+`brand/icon.png` und `brand/icon@2x.png` sind **erzeugt**, nicht gemalt:
+derselbe Erzeuger, der das Webseiten-Symbol des Portals schreibt
+(`entwicklung/symbol-erzeugen.py` im Repository `elms-Web`), mit 256 und
+512 px. Dasselbe Zeichen, dieselben Farben, derselbe Eckradius — von Hand
+nachgezeichnet würden sie beim ersten Nachziehen auseinanderlaufen.
+
+### Eine neue Fassung herausgeben
+
+1. `version` in `custom_components/hesotec_elms/manifest.json` hochzählen.
+   **Das ist die Zahl, an der HACS ein Update erkennt** — ohne sie merkt
+   niemand, dass es etwas Neues gibt.
+2. Hierher committen, dann nach GitHub spiegeln (**über SSH**: ESET
+   blockiert von den Arbeitsplätzen aus HTTPS zu fremden Git-Diensten).
+3. Auf GitHub ein **Release** anlegen, nicht nur ein Tag — ein Tag allein
+   genügt HACS nicht.
+
+**Ohne Release geht es auch**, dann liefert HACS den Standardzweig aus. Das
+ist aber kein Zustand für Kunden: sie bekämen jeden Zwischenstand, auch einen
+halbfertigen.
+
 ## Prüfen
 
 ```bash

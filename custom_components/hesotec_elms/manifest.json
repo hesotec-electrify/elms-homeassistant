@@ -1,10 +1,12 @@
 {
   "domain": "hesotec_elms",
   "name": "hesotec electrify",
-  "version": "1.0.0",
-  "documentation": "https://git.hesotecgmbh.local/aschaefen/elms-HomeAssistant",
-  "issue_tracker": "https://git.hesotecgmbh.local/aschaefen/elms-HomeAssistant/issues",
-  "codeowners": ["@aschaefen"],
+  "version": "1.1.0",
+  "documentation": "https://github.com/hesotec-electrify/elms-homeassistant",
+  "issue_tracker": "https://github.com/hesotec-electrify/elms-homeassistant/issues",
+  "codeowners": [
+    "@aschaefen"
+  ],
   "config_flow": true,
   "integration_type": "hub",
   "iot_class": "cloud_polling",
