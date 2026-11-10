@@ -15,6 +15,17 @@
         "data": {
           "schluessel": "Key"
         }
+      },
+      "reconfigure": {
+        "title": "Change access",
+        "description": "Swap the address or the key. Entities, history and the card assignment are kept. The address must point to the same portal — otherwise the entities keep the names of the old charge points while showing the values of the new ones.",
+        "data": {
+          "adresse": "Portal address",
+          "schluessel": "Key"
+        },
+        "data_description": {
+          "schluessel": "Leave empty to keep the current key. The portal shows a key only once — without it you would otherwise have to create a new one just to change the address."
+        }
       }
     },
     "error": {
@@ -23,7 +34,8 @@
       "unbekannt": "The portal answered unexpectedly. Details are in the log."
     },
     "abort": {
-      "already_configured": "This portal is already set up."
+      "already_configured": "This portal is already set up.",
+      "reconfigure_successful": "The access was changed."
     }
   },
   "options": {

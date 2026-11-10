@@ -91,6 +91,95 @@ class Einrichtung(ConfigFlow, domain=BEREICH):
             step_id="user", data_schema=MASKE, errors=fehler
         )
 
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Adresse oder Schlüssel tauschen, ohne alles wegzuwerfen.
+
+        **Das ist nicht dasselbe wie die erneute Anmeldung daneben.** Jene
+        kommt von selbst, wenn das Portal einen Schlüssel ablehnt; diese
+        hier ruft der Mensch auf, weil er tauschen WILL — etwa von einem
+        lesenden auf einen verwaltenden Schlüssel, oder umgekehrt zum
+        Ausprobieren.
+
+        Ohne diesen Weg bliebe nur löschen und neu anlegen, und das kostet
+        den Verlauf aller Entitäten und die Zuordnung der Karten.
+        """
+        eintrag = self._get_reconfigure_entry()
+        fehler: dict[str, str] = {}
+
+        if user_input is not None:
+            adresse = user_input[FELD_ADRESSE].rstrip("/")
+
+            # LEER HEISST UNVERAENDERT, und das ist hier keine Bequemlichkeit.
+            #
+            # Das Portal zeigt einen Schluessel GENAU EINMAL an; wer ihn nicht
+            # aufgehoben hat, kann ihn nicht wiederholen. Ein Pflichtfeld
+            # zwaenge also jeden, der nur die ADRESSE tauschen will, einen
+            # neuen Schluessel anzulegen und den alten zurueckzulassen -- und
+            # genau das Wegwerfen sollte dieser Weg vermeiden.
+            schluessel = user_input.get(FELD_SCHLUESSEL) or eintrag.data[FELD_SCHLUESSEL]
+
+            schlimm = await self._probieren(adresse, schluessel)
+
+            if schlimm is None:
+                # DIE KENNUNG IST DIE ADRESSE -- und genau die soll sich hier
+                # aendern duerfen. Hier stand `_abort_if_unique_id_mismatch`,
+                # und das war ein Denkfehler: die Pruefung besteht darauf,
+                # dass die Kennung BLEIBT, also brach sie bei jedem Versuch
+                # ab, die Adresse zu wechseln (gemeldet 10.11.2026 beim ersten
+                # Durchlauf -- `anderes_portal`, ausgerechnet beim Umzug von
+                # :8443 auf 443, fuer den dieser Weg gebaut wurde).
+                #
+                # DAS ECHTE PROBLEM IST EIN ZWEITER EINTRAG auf dieselbe
+                # Adresse: dann legte jeder Ladepunkt seine Entitaeten
+                # doppelt an, mit derselben Seriennummer und damit
+                # kollidierenden Kennungen. Genau das wird geprueft, und
+                # sonst nichts.
+                #
+                # OB ES DASSELBE PORTAL IST, KANN HIER NIEMAND WISSEN -- eine
+                # Adresse sagt es nicht. Wer die Integration auf ein fremdes
+                # Portal biegt, bekommt Entitaeten, die nach den Ladepunkten
+                # des alten heissen und die Werte des neuen zeigen. Davor
+                # warnt der Text der Maske; entscheiden muss es der Mensch,
+                # der sie bedient.
+                await self.async_set_unique_id(adresse)
+
+                for anderer in self._async_current_entries():
+                    if (anderer.entry_id != eintrag.entry_id
+                            and anderer.unique_id == adresse):
+                        return self.async_abort(reason="already_configured")
+
+                return self.async_update_reload_and_abort(
+                    eintrag,
+                    unique_id=adresse,
+                    data_updates={
+                        FELD_ADRESSE: adresse,
+                        FELD_SCHLUESSEL: schluessel,
+                    },
+                )
+
+            fehler["base"] = schlimm
+
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        FELD_ADRESSE, default=eintrag.data[FELD_ADRESSE]
+                    ): TextSelector(TextSelectorConfig(type=TextSelectorType.URL)),
+                    # OPTIONAL, mit leerer Vorgabe: so steht das Feld leer da
+                    # und bedeutet „lass den alten". Einen Schluessel
+                    # vorauszufuellen kaeme ohnehin nicht in Frage -- er ist
+                    # ein Geheimnis und gehoert in keine Maske zurueck.
+                    vol.Optional(FELD_SCHLUESSEL, default=""): TextSelector(
+                        TextSelectorConfig(type=TextSelectorType.PASSWORD)
+                    ),
+                }
+            ),
+            errors=fehler,
+        )
+
     async def async_step_reauth(
         self, entry_data: Mapping[str, Any]
     ) -> ConfigFlowResult:

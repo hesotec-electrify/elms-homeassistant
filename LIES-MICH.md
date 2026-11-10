@@ -41,11 +41,25 @@ anzulegen.
 > **Hier stand bis zum 10.11.2026 `:8443`.** Das Portal lief eine Zeit lang
 > auf einem zweiten Port neben dem Altportal; seit dem Umzug am 04.11.2026
 > ist dieser Port zu, und `https://elms.hesotec.de` ist die ganze Adresse.
-> **Eine bestehende Einrichtung zieht nicht von selbst um.** Die Adresse
-> steht im Eintrag, und ändern lässt sie sich zur Zeit nur, indem man die
-> Integration entfernt und neu anlegt — Entitäten und Verlauf gehen dabei
-> verloren. Ein Weg, der das erspart, liegt im Arbeitsbaum und ist noch
-> nicht geprüft.
+> **Eine bestehende Einrichtung zieht nicht von selbst um** — die Adresse
+> steht im Eintrag. Ändern lässt sie sich unter *Neu konfigurieren*, siehe
+> unten; Entitäten, Verlauf und Kartenzuordnung bleiben dabei erhalten.
+
+### Adresse oder Schlüssel später ändern
+
+**Einstellungen → Geräte & Dienste → hesotec electrify → ⋮ → Neu
+konfigurieren.** Entitäten, Verlauf und die Kartenzuordnung bleiben.
+
+- Das **Schlüsselfeld darf leer bleiben** — dann gilt der bisherige. Das
+  Portal zeigt einen Schlüssel nur einmal an; wer ihn nicht aufgehoben hat,
+  müsste sonst einen neuen anlegen, nur um die Adresse zu ändern.
+- Die neue Adresse muss auf **dasselbe Portal** zeigen. Prüfen kann das
+  niemand — eine Adresse sagt es nicht. Wer auf ein fremdes Portal biegt,
+  bekommt Entitäten, die nach den alten Ladepunkten heißen und die Werte
+  der neuen zeigen.
+- Lehnt das Portal den Schlüssel ab, meldet sich die Integration von
+  selbst mit der **erneuten Anmeldung** — das ist ein anderer Weg und
+  fragt nur nach dem Schlüssel.
 
 ### Was der Schlüssel darf
 

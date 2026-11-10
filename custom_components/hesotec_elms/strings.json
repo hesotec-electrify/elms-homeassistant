@@ -15,6 +15,17 @@
         "data": {
           "schluessel": "Schlüssel"
         }
+      },
+      "reconfigure": {
+        "title": "Zugang ändern",
+        "description": "Adresse oder Schlüssel tauschen. Entitäten, Verlauf und die Kartenzuordnung bleiben erhalten. Die Adresse muss auf dasselbe Portal zeigen — sonst heißen die Entitäten weiter nach den alten Ladepunkten und zeigen die Werte der neuen.",
+        "data": {
+          "adresse": "Adresse des Portals",
+          "schluessel": "Schlüssel"
+        },
+        "data_description": {
+          "schluessel": "Leer lassen heißt: der bisherige Schlüssel bleibt. Das Portal zeigt einen Schlüssel nur einmal an — wer ihn nicht aufgehoben hat, müsste sonst einen neuen anlegen, nur um die Adresse zu ändern."
+        }
       }
     },
     "error": {
@@ -23,7 +34,8 @@
       "unbekannt": "Das Portal hat unerwartet geantwortet. Einzelheiten stehen im Protokoll."
     },
     "abort": {
-      "already_configured": "Dieses Portal ist bereits eingerichtet."
+      "already_configured": "Dieses Portal ist bereits eingerichtet.",
+      "reconfigure_successful": "Der Zugang wurde geändert."
     }
   },
   "options": {
