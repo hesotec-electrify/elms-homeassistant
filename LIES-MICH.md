@@ -61,6 +61,14 @@ mehr „Add-ons“: *Einstellungen → Apps → Store*.
 Beim Austausch den alten Ordner **löschen** statt darüberzukopieren — sonst
 bleiben Dateien liegen, die es in der neuen Fassung nicht mehr gibt.
 
+**Die Datei dafür liefert das Portal aus** (<https://elms.hesotec.de/anleitungen/home-assistant.html#dateien>), nicht dieses
+Repository und auch nicht das Release auf GitHub. Gebaut wird sie drüben mit
+`entwicklung/ha-paket.py` im Repository `elms-Web`: es liest die Fassung aus
+`manifest.json`, packt **nur** `custom_components/hesotec_elms` und schreibt
+Fassung, Größe und SHA-256 selbst in die Anleitungsseite. **Also nach jeder
+neuen Fassung dort laufen lassen** — sonst steht im Portal eine alte Datei
+mit einer Nummer, die der Kunde für die neue hält.
+
 > **Von Hand ist seit dem 10.11.2026 der letzte Ausweg** — der Weg, den ein
 > Kunde nehmen sollte, geht über den Katalog: Aktualisieren kostet danach
 > zwei Klicks statt eines Dateitauschs über Samba. Geholt wird von der

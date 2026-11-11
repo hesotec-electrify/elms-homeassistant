@@ -46,10 +46,16 @@ Aktualisieren kostet zwei Klicks statt eines Dateitauschs über Samba.
 
 ### Von Hand
 
-Ohne beides den Ordner `custom_components/hesotec_elms` nach
-`<config>/custom_components/` kopieren und Home Assistant neu starten. Wie die Dateien auf ein Home
-Assistant OS kommen, steht in der Anleitung oben — kurz: es braucht eines der
-Zusatzprogramme unter *Einstellungen → Apps*, etwa **Samba share**.
+**Das Paket liegt im Portal zum Herunterladen**, mit Fassungsnummer und
+Prüfsumme daneben:
+
+<https://elms.hesotec.de/anleitungen/home-assistant.html#dateien>
+
+Darin steckt der Ordner `hesotec_elms` und sonst nichts. Ihn nach
+`<config>/custom_components/` kopieren und Home Assistant neu starten. Wie
+die Dateien auf ein Home Assistant OS kommen, steht in der Anleitung — kurz:
+es braucht eines der Zusatzprogramme unter *Einstellungen → Apps*, etwa
+**Samba share**.
 
 ## Einrichten
 
