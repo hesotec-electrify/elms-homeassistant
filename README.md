@@ -16,21 +16,38 @@ Je Ladepunkt entsteht ein Gerät mit sechs Entitäten: *Laden erlaubt* (Schalter
 
 ## Einbauen
 
-### Über HACS
+**Seit Home Assistant 2026.11 steckt HACS in Home Assistant drin und heißt
+Marketplace.** Welche Fassung läuft, steht unter *Einstellungen → Über* —
+danach richtet sich der Weg.
+
+### Ab 2026.11: über den Marketplace
+
+1. **Einstellungen → Marketplace** (in der Seitenleiste steht er nicht),
+   **Von Link hinzufügen**:
+   `https://github.com/hesotec-electrify/elms-homeassistant`
+2. Einmalig **mit GitHub anmelden** (Gerätecode). Für den Katalog braucht es
+   das nicht, für ein eigenes Repository schon; gelesen wird nur Öffentliches.
+3. „hesotec electrify" herunterladen, Home Assistant neu starten.
+
+### Bis 2026.10: über HACS
 
 1. In HACS **⋮ → Benutzerdefinierte Repositories** eintragen, Art
-   **Integration**:
-   `https://github.com/hesotec-electrify/elms-homeassistant`
+   **Integration**, dieselbe Adresse.
 2. „hesotec electrify" herunterladen.
 3. Home Assistant neu starten.
 
-Danach meldet HACS jede neue Fassung von selbst, und das Aktualisieren
-kostet zwei Klicks statt eines Dateitauschs über Samba.
+**HACS nachzuinstallieren lohnt nicht mehr**: ab 2026.11 blockiert Home
+Assistant es, weil der Marketplace an seine Stelle tritt. Wer es heute nicht
+hat, aktualisiert besser gleich Home Assistant — eine bestehende
+HACS-Einrichtung wird dabei übernommen.
+
+Über beide Wege meldet sich jede neue Fassung von selbst, und das
+Aktualisieren kostet zwei Klicks statt eines Dateitauschs über Samba.
 
 ### Von Hand
 
-Den Ordner `custom_components/hesotec_elms` nach `<config>/custom_components/`
-kopieren und Home Assistant neu starten. Wie die Dateien auf ein Home
+Ohne beides den Ordner `custom_components/hesotec_elms` nach
+`<config>/custom_components/` kopieren und Home Assistant neu starten. Wie die Dateien auf ein Home
 Assistant OS kommen, steht in der Anleitung oben — kurz: es braucht eines der
 Zusatzprogramme unter *Einstellungen → Apps*, etwa **Samba share**.
 

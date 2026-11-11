@@ -31,11 +31,12 @@ Je Ladepunkt entsteht ein **Gerät** mit:
 
 1. Im Portal anmelden, **Mein Zugang → Meine Integrationen**, einen
    Schlüssel anlegen. Er wird **genau einmal** angezeigt.
-2. **Über HACS** (seit 10.11.2026): in HACS unter *⋮ → Benutzerdefinierte
-   Repositories* `https://github.com/hesotec-electrify/elms-homeassistant`
-   eintragen, Art *Integration*, herunterladen. Sonst den Ordner
-   `custom_components/hesotec_elms` von Hand nach
-   `<config>/custom_components/` kopieren.
+2. **Einbauen.** Ab Home Assistant 2026.11 unter *Einstellungen →
+   Marketplace → Von Link hinzufügen*, davor in HACS unter
+   *⋮ → Benutzerdefinierte Repositories*, jeweils mit
+   `https://github.com/hesotec-electrify/elms-homeassistant` (Art
+   *Integration*). Sonst den Ordner `custom_components/hesotec_elms` von Hand
+   nach `<config>/custom_components/` kopieren.
 3. Home Assistant neu starten.
 4. **Einstellungen → Geräte & Dienste → Integration hinzufügen →
    hesotec electrify.** Adresse (`https://elms.hesotec.de`) und
@@ -60,15 +61,29 @@ mehr „Add-ons“: *Einstellungen → Apps → Store*.
 Beim Austausch den alten Ordner **löschen** statt darüberzukopieren — sonst
 bleiben Dateien liegen, die es in der neuen Fassung nicht mehr gibt.
 
-> **Über HACS geht es seit dem 10.11.2026** — und das ist der Weg, den ein
-> Kunde nehmen sollte: Aktualisieren kostet danach zwei Klicks statt eines
-> Dateitauschs über Samba. Geholt wird von der Spiegelung
-> `hesotec-electrify/elms-homeassistant` auf GitHub; gearbeitet wird
-> weiter hier auf Forgejo. Wie eine neue Fassung dorthin kommt, steht
-> unter *Ausliefern über HACS*.
+> **Von Hand ist seit dem 10.11.2026 der letzte Ausweg** — der Weg, den ein
+> Kunde nehmen sollte, geht über den Katalog: Aktualisieren kostet danach
+> zwei Klicks statt eines Dateitauschs über Samba. Geholt wird von der
+> Spiegelung `hesotec-electrify/elms-homeassistant` auf GitHub; gearbeitet
+> wird weiter hier auf Forgejo. Wie eine neue Fassung dorthin kommt, steht
+> unter *Ausliefern über den Katalog*.
 >
 > **Hier stand bis dahin, HACS sei kein Weg** — und davor stand sogar, es
 > ginge einfach so. Beides war falsch, in entgegengesetzte Richtungen.
+
+> **Und der Katalog hat am 04.11.2026 den Namen gewechselt.** Mit Home
+> Assistant **2026.11** ist HACS in Home Assistant eingezogen und heißt dort
+> **Marketplace**: *Einstellungen → Marketplace*, nicht mehr in der
+> Seitenleiste. Derselbe Katalog, dieselben Repositories, dieselbe
+> `hacs.json` — für dieses Repository ändert sich **nichts**. Für die
+> Anleitung schon: das eigenständige HACS lässt sich ab 2026.11 **nicht mehr
+> installieren**, Home Assistant blockiert es. Ein Kunde ohne HACS wird also
+> nicht mehr dorthin geschickt, sondern zum Aktualisieren.
+>
+> **Ein eigenes Repository verlangt im Marketplace eine GitHub-Anmeldung**
+> (Gerätecode, liest nur Öffentliches). Für den Katalog selbst verlangt er
+> keine — die Hürde steht also genau auf unserem Weg und nicht auf dem der
+> mitgelieferten Integrationen.
 
 > **Hier stand bis zum 10.11.2026 `:8443`.** Das Portal lief eine Zeit lang
 > auf einem zweiten Port neben dem Altportal; seit dem Umzug am 04.11.2026
@@ -153,12 +168,14 @@ seine Bedeutung ändert, ändert sie für Programme, die auf Rechnern von
 Kunden laufen und beim Ausrollen des Portals nicht mitkommen. Erweitern ja,
 ändern nein.
 
-## Ausliefern über HACS
+## Ausliefern über den Katalog
 
-**Nicht von hier, sondern von einer Spiegelung auf GitHub.** HACS holt
-ausschließlich über die GitHub-Schnittstelle; dieses Repository liegt auf dem
-hauseigenen Forgejo. Die Spiegelung ist der Auslieferungsweg, nicht der
-Arbeitsort — gearbeitet wird weiter hier.
+**Nicht von hier, sondern von einer Spiegelung auf GitHub.** Der Katalog —
+HACS bis 2026.10, der eingebaute Marketplace ab 2026.11 — holt ausschließlich
+über die GitHub-Schnittstelle; dieses Repository liegt auf dem hauseigenen
+Forgejo. Die Spiegelung ist der Auslieferungsweg, nicht der Arbeitsort —
+gearbeitet wird weiter hier. **Beide lesen dieselbe `hacs.json`**, es gibt
+also nur einen Stand zu pflegen.
 
 **Was dafür im Repository stehen muss**, und was davon schon steht:
 
@@ -167,9 +184,9 @@ Arbeitsort — gearbeitet wird weiter hier.
 | `custom_components/hesotec_elms/` mit allen Dateien | ✓ |
 | `manifest.json` mit `domain`, `name`, `version`, `codeowners`, `documentation`, `issue_tracker` | ✓ |
 | `hacs.json` mit `name` | ✓ |
-| `README.md` — HACS zeigt sie in der Übersicht (`render_readme`) | ✓ |
+| `README.md` — der Katalog zeigt sie in der Übersicht (`render_readme`) | ✓ |
 | `brand/icon.png` | ✓, 256 px, dazu `icon@2x.png` mit 512 px |
-| ein **Release** auf GitHub | fehlt, geht erst mit der Spiegelung |
+| ein **Release** auf GitHub | ✓, `v1.1.0` vom 10.11.2026 |
 
 **Die beiden Adressen im Manifest zeigen auf die Spiegelung** und nicht mehr
 auf Forgejo — ein `documentation`, das von außen nicht erreichbar ist, ist für
@@ -179,10 +196,12 @@ einen Kunden dasselbe wie keines. Festgelegt am 10.11.2026:
 https://github.com/hesotec-electrify/elms-homeassistant
 ```
 
-**Das Repository gibt es dort noch nicht.** Bis es angelegt ist, zeigen die
-beiden Adressen ins Leere — sichtbar wird das erst, wenn jemand in Home
-Assistant auf „Dokumentation" klickt. Wer die Spiegelung einrichtet, legt
-sie also unter genau diesem Namen an und nicht unter einem ähnlichen.
+**Die Spiegelung steht seit dem 10.11.2026** unter genau diesem Namen,
+öffentlich, mit den Schlagwörtern `home-assistant`, `hacs`, `ev-charging`
+und `homeassistant-integration`. Ein anderer Name wäre kein kleiner
+Unterschied gewesen: die beiden Adressen im Manifest zeigten dann ins Leere,
+und sichtbar würde das erst, wenn ein Kunde in Home Assistant auf
+„Dokumentation" klickt.
 
 ### Die Symbole kommen aus dem Portal
 
@@ -195,14 +214,14 @@ nachgezeichnet würden sie beim ersten Nachziehen auseinanderlaufen.
 ### Eine neue Fassung herausgeben
 
 1. `version` in `custom_components/hesotec_elms/manifest.json` hochzählen.
-   **Das ist die Zahl, an der HACS ein Update erkennt** — ohne sie merkt
-   niemand, dass es etwas Neues gibt.
+   **Das ist die Zahl, an der der Katalog ein Update erkennt** — ohne sie
+   merkt niemand, dass es etwas Neues gibt.
 2. Hierher committen, dann nach GitHub spiegeln (**über SSH**: ESET
    blockiert von den Arbeitsplätzen aus HTTPS zu fremden Git-Diensten).
 3. Auf GitHub ein **Release** anlegen, nicht nur ein Tag — ein Tag allein
-   genügt HACS nicht.
+   genügt nicht.
 
-**Ohne Release geht es auch**, dann liefert HACS den Standardzweig aus. Das
+**Ohne Release geht es auch**, dann wird der Standardzweig ausgeliefert. Das
 ist aber kein Zustand für Kunden: sie bekämen jeden Zwischenstand, auch einen
 halbfertigen.
 
