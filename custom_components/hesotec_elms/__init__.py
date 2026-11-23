@@ -6,14 +6,17 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.device_registry import DeviceEntry
 
 from .const import (
+    BEREICH,
     FELD_ADRESSE,
     FELD_SCHLUESSEL,
     FELD_TAKT,
     VORGABE_TAKT,
 )
 from .koordinator import Ladepunktkoordinator
+from .ladepunkt import noch_geliefert
 from .portal import Portal
 
 PLATTFORMEN: list[Platform] = [
@@ -58,6 +61,27 @@ async def async_setup_entry(hass: HomeAssistant, eintrag: ElmsEintrag) -> bool:
 async def async_unload_entry(hass: HomeAssistant, eintrag: ElmsEintrag) -> bool:
     """Räumt einen Portalzugang ab."""
     return await hass.config_entries.async_unload_platforms(eintrag, PLATTFORMEN)
+
+
+async def async_remove_config_entry_device(
+    hass: HomeAssistant, eintrag: ElmsEintrag, geraet: DeviceEntry
+) -> bool:
+    """Erlaubt „Gerät löschen“ für Ladepunkte, die das Portal nicht mehr liefert.
+
+    Ohne diese Funktion lehnt Home Assistant das Löschen jedes Geräts dieser
+    Integration ab („Config entry does not support device removal“). Ein
+    Ladepunkt, der aus der Antwort verschwunden ist (verkauft, einem anderen
+    Mandanten zugeordnet oder nach einem Mandantenwechsel mitgekommen),
+    bliebe sonst für immer als leere Hülle stehen, mit Namen und
+    Seriennummer.
+
+    Ein Gerät, das noch geliefert wird, bleibt gesperrt. Es käme beim
+    nächsten Laden ohnehin zurück.
+    """
+    koordinator = eintrag.runtime_data
+    return not noch_geliefert(
+        set(geraet.identifiers), list(koordinator.data.values()), BEREICH
+    )
 
 
 async def _neu_laden(hass: HomeAssistant, eintrag: ElmsEintrag) -> None:

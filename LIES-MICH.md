@@ -194,7 +194,7 @@ also nur einen Stand zu pflegen.
 | `hacs.json` mit `name` | ✓ |
 | `README.md` — der Katalog zeigt sie in der Übersicht (`render_readme`) | ✓ |
 | `brand/icon.png` | ✓, 256 px, dazu `icon@2x.png` mit 512 px |
-| ein **Release** auf GitHub | ✓, `v1.1.0` vom 10.11.2026 |
+| ein **Release** auf GitHub | ✓, `v1.1.1` vom 23.11.2026 (zuvor `v1.1.0` vom 10.11.2026) |
 
 **Die beiden Adressen im Manifest zeigen auf die Spiegelung** und nicht mehr
 auf Forgejo — ein `documentation`, das von außen nicht erreichbar ist, ist für

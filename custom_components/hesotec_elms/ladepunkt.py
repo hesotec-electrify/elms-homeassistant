@@ -118,6 +118,29 @@ def _zeitpunkt(wert: object) -> datetime | None:
         return None
 
 
+def noch_geliefert(
+    kennungen: set[tuple[str, str]],
+    punkte: list[Ladepunkt],
+    bereich: str,
+) -> bool:
+    """Steht ein Gerät noch in der letzten Portalantwort?
+
+    ``kennungen`` sind die ``identifiers`` des Geräts in Home Assistant,
+    also Paare aus Bereich und Seriennummer. Ein Gerät, das das Portal noch
+    liefert, darf nicht gelöscht werden. Es entstünde beim nächsten Laden
+    sofort wieder, und bis dahin fehlten seine Entitäten.
+
+    **Die Antwort gilt für den Augenblick, nicht für immer.** Das Portal
+    liefert den Mandanten, auf dem der Zugang hinter dem Schlüssel gerade
+    steht. Nach einem Mandantenwechsel fehlen in der Antwort die eigenen
+    Ladepunkte, und dann wären auch sie hier löschbar. Am 23.11.2026 ist das
+    zweimal an einem Tag passiert. Gelöscht wird deshalb nur auf Knopfdruck
+    eines Menschen, nie von selbst.
+    """
+    geliefert = {p.seriennummer for p in punkte}
+    return any(b == bereich and s in geliefert for b, s in kennungen)
+
+
 @dataclass(frozen=True, slots=True)
 class Karte:
     """Eine Karte, wie sie das Portal zur Auswahl liefert.

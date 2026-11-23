@@ -133,6 +133,22 @@ def main() -> int:
     ohne = Karte.aus_json({"id": 7, "name": "1234…5678", "nummer": "1234…5678"})
     gleich("Karte ohne Bezeichnung", ohne.beschriftung, "1234…5678")
 
+    # ------------------------------------------- Gerät löschen erlaubt?
+    # Nur ein Gerät, das die letzte Antwort NICHT mehr enthält, darf weg.
+    # Fall vom 23.11.2026: nach einem Mandantenwechsel standen zwölf fremde
+    # Ladepunkte in Home Assistant und liessen sich nicht entfernen.
+    noch_geliefert = _MODUL.noch_geliefert
+    antwort = [p, Ladepunkt.aus_json(dict(LAEDT, id=18, seriennummer="15061725"))]
+
+    gleich("geliefertes Geraet bleibt gesperrt",
+           noch_geliefert({("hesotec_elms", "15061724")}, antwort, "hesotec_elms"), True)
+    gleich("verschwundenes Geraet ist loeschbar",
+           noch_geliefert({("hesotec_elms", "15061127")}, antwort, "hesotec_elms"), False)
+    gleich("fremder Bereich mit gleicher Nummer zaehlt nicht",
+           noch_geliefert({("matter", "15061724")}, antwort, "hesotec_elms"), False)
+    gleich("leere Antwort: alles loeschbar",
+           noch_geliefert({("hesotec_elms", "15061724")}, [], "hesotec_elms"), False)
+
     # -------------------------------------------------------------- Ergebnis
     if FEHLER:
         for f in FEHLER:
@@ -140,7 +156,7 @@ def main() -> int:
         print(f"\n{len(FEHLER)} Abweichung(en).")
         return 1
 
-    print("Portalantwort: 22 Prüfungen, keine Abweichung.")
+    print("Portalantwort: 26 Prüfungen, keine Abweichung.")
     print("In Ordnung.")
     return 0
 
